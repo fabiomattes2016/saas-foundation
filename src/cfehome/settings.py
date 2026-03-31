@@ -1,12 +1,10 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from urllib.parse import urlparse, parse_qsl
+import dj_database_url
 
 
 load_dotenv()  # Load environment variables from .env file
-
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'your-default-secret-key')  # Use a default value for development, but override in production
@@ -64,15 +62,7 @@ if DEBUG:
     }
 else:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': tmpPostgres.path.decode().replace('/', '') if isinstance(tmpPostgres.path, bytes) else tmpPostgres.path.replace('/', ''),
-            'USER': tmpPostgres.username.decode() if isinstance(tmpPostgres.username, bytes) else tmpPostgres.username,
-            'PASSWORD': tmpPostgres.password.decode() if isinstance(tmpPostgres.password, bytes) else tmpPostgres.password,
-            'HOST': tmpPostgres.hostname.decode() if isinstance(tmpPostgres.hostname, bytes) else tmpPostgres.hostname,
-            'PORT': 5432,
-            'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
-        }
+        "default": dj_database_url.parse(os.getenv("DATABASE_URL"))
     }
 
 AUTH_PASSWORD_VALIDATORS = [

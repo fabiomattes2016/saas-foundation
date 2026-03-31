@@ -62,7 +62,17 @@ if DEBUG:
     }
 else:
     DATABASES = {
-        "default": dj_database_url.parse(os.getenv("DATABASE_URL"))
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv("DB_NAME", "postgres"),
+            'USER': os.getenv("DB_USER", "postgres"),
+            'PASSWORD': os.getenv("DB_PASSWORD", ""),
+            'HOST': os.getenv("DB_HOST", "localhost"),
+            'PORT': os.getenv("DB_PORT", "5432"),
+            'OPTIONS': {
+                'sslmode': 'require',
+            },
+        }
     }
 
 AUTH_PASSWORD_VALIDATORS = [

@@ -66,10 +66,10 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': tmpPostgres.path.replace('/', ''),
-            'USER': tmpPostgres.username,
-            'PASSWORD': tmpPostgres.password,
-            'HOST': tmpPostgres.hostname,
+            'NAME': tmpPostgres.path.decode().replace('/', '') if isinstance(tmpPostgres.path, bytes) else tmpPostgres.path.replace('/', ''),
+            'USER': tmpPostgres.username.decode() if isinstance(tmpPostgres.username, bytes) else tmpPostgres.username,
+            'PASSWORD': tmpPostgres.password.decode() if isinstance(tmpPostgres.password, bytes) else tmpPostgres.password,
+            'HOST': tmpPostgres.hostname.decode() if isinstance(tmpPostgres.hostname, bytes) else tmpPostgres.hostname,
             'PORT': 5432,
             'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
         }

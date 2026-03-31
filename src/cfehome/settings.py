@@ -7,7 +7,7 @@ load_dotenv()  # Load environment variables from .env file
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'your-default-secret-key')  # Use a default value for development, but override in production
-DEBUG = os.getenv('DEBUG', '0') == '1'
+DEBUG = os.getenv('DEBUG', '1') == '1'
 ALLOWED_HOSTS = [".railway.app", ".railway.app."]  # Allow all subdomains of railway.app in development
 
 if DEBUG:

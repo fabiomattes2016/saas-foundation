@@ -1,0 +1,5 @@
+{% if user.is_authenticated %}
+    <p>Welcome back, {{ user.username }}!</p>
+{% else %}
+    <p>Welcome to our site! Please <a href="/login/">log in</a> to access more features.</p>
+{% endif %}

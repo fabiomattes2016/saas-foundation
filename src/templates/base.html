@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Site{% endblock %}</title>
+</head>
+<body>
+    <h1>{% block header %}My Site{% endblock %}</h1>
+    <main>
+        {% block content %}
+        <p>This is the default content.</p>
+        {% endblock %}
+    </main>
+</body>
+</html>

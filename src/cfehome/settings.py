@@ -31,6 +31,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -109,11 +110,18 @@ if not DEBUG:
 else:
     STATIC_ROOT = BASE_DIR.parent / 'dev-cdn'
 
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 VENDORS_STATICFILES = {
     "flowbite.min.css": "https://cdn.jsdelivr.net/npm/flowbite@2.3.0/dist/flowbite.min.css",
-    "flowbite.min.js": "https://cdn.jsdelivr.net/npm/flowbite@2.3.0/dist/flowbite.min.js"
+    "flowbite.min.js": "https://cdn.jsdelivr.net/npm/flowbite@2.3.0/dist/flowbite.min.js",
+    "flowbite.min.js.map": "https://cdn.jsdelivr.net/npm/flowbite@2.3.0/dist/flowbite.min.js.map",
 }
 
 # COMPRESS_ROOT = BASE_DIR / 'static'

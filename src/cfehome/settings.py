@@ -1,14 +1,18 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import dj_database_url
 
 
 load_dotenv()  # Load environment variables from .env file
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'your-default-secret-key')  # Use a default value for development, but override in production
-DEBUG = os.getenv('DEBUG', '1') == '1'
+
+if os.getenv("DEBUG") == '1':
+    DEBUG = True
+else:
+    DEBUG = False
+
 ALLOWED_HOSTS = [".railway.app", ".railway.app."]  # Allow all subdomains of railway.app in development
 
 if DEBUG:
@@ -102,8 +106,8 @@ STATICFILES_DIRS = [
 
 if not DEBUG:
     STATIC_ROOT = BASE_DIR / 'prod-cdn'
-
-STATIC_ROOT = BASE_DIR.parent / 'dev-cdn'
+else:
+    STATIC_ROOT = BASE_DIR.parent / 'dev-cdn'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

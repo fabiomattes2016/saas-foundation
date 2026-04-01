@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'commando',
+    'compressor',
 ]
 
 MIDDLEWARE = [
@@ -53,27 +55,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cfehome.wsgi.application'
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv("DB_NAME", "postgres"),
+        'USER': os.getenv("DB_USER", "postgres"),
+        'PASSWORD': os.getenv("DB_PASSWORD", ""),
+        'HOST': os.getenv("DB_HOST", "localhost"),
+        'PORT': os.getenv("DB_PORT", "5432"),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv("DB_NAME", "postgres"),
-            'USER': os.getenv("DB_USER", "postgres"),
-            'PASSWORD': os.getenv("DB_PASSWORD", ""),
-            'HOST': os.getenv("DB_HOST", "localhost"),
-            'PORT': os.getenv("DB_PORT", "5432"),
-            'OPTIONS': {
-                'sslmode': 'require',
-            },
-        }
-    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -94,5 +88,30 @@ LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'en-us')
 TIME_ZONE = os.getenv('TIME_ZONE', 'UTC')
 USE_I18N = True
 USE_TZ = True
+
 STATIC_URL = 'static/'
+
+STATICFILES_BASE_DIR = BASE_DIR / 'static'
+STATICFILES_BASE_DIR.mkdir(exist_ok=True, parents=True)
+
+STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / 'vendors'
+
+STATICFILES_DIRS = [
+    STATICFILES_BASE_DIR
+]
+
+if not DEBUG:
+    STATIC_ROOT = BASE_DIR / 'prod-cdn'
+
+STATIC_ROOT = BASE_DIR.parent / 'dev-cdn'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+VENDORS_STATICFILES = {
+    "flowbite.min.css": "https://cdn.jsdelivr.net/npm/flowbite@2.3.0/dist/flowbite.min.css",
+    "flowbite.min.js": "https://cdn.jsdelivr.net/npm/flowbite@2.3.0/dist/flowbite.min.js"
+}
+
+# COMPRESS_ROOT = BASE_DIR / 'static'
+# COMPRESS_ENABLED = True
+# STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)

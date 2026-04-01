@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% include 'base/meta.html' %}
+    <title>Document</title>
+    {% include 'base/css.html' %}
+</head>
+<body>
+    {% include 'components/nav/navbar.html' %}
+    {% block content %}
+    {% endblock %}
+
+    {% include 'base/js.html' %}
+</body>
+</html>
